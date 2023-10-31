@@ -1,5 +1,8 @@
 package ru.oop;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * <b>Задача 2:</b><br>
  * Добраться человеку до заданного места.<br>
@@ -38,11 +41,18 @@ public class Main {
      * на любом, заранее определённом транспорте
      */
     public static void moveTo(Person person, Position destination) {
-        Transport transport = new Transport();
-        person.walk(transport.getPosition());
-        transport.enter(person);
-        transport.goWhileHasPath(destination);
-        transport.exit(person);
+        /* вижу, что можно прямо в конструкторе "посадить" человека в транспорт, так что, возможно, методы
+        enter() и exit() для транспорта не нужны? */
+        List<Transport> transports = Arrays.asList(new Car(person), new Bus("43", person),
+                new Bus("50", person));
+        for (int i = 0; i < transports.size(); i++) {
+            Transport currentTransport = transports.get(i);
+            person.walk(currentTransport.getPosition());
+            currentTransport.enter(person);
+            Position nextPosition = i < transports.size() - 1 ? transports.get(i + 1).getPosition() : destination;
+            currentTransport.goWhileHasPath(nextPosition);
+            currentTransport.exit(person);
+        }
         person.walk(destination);
         assert person.getPosition() == destination;
     }
