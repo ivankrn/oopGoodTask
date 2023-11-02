@@ -1,16 +1,11 @@
 package ru.oop;
 
 /**
- * Задача: нужно добраться человеку на машине до заданного места.<br>
- * Но не всегда можно подъехать прямо к нужному месту, может понадобиться дойти пешком.<br>
- * Человек знает своё текущее местоположение (у него есть метод {@link Person#getPosition()}<br>
- * <p>
- * <ul>
- *   <li>Код не должен превышать 6 строк</li>
- *   <li>Запрещено реализовывать конструкторы и методы, кроме moveTo(Person person, Position destination)</li>
- *   <li>Запрещено добавлять новые методы в класс Main</li>
- *   <li>Разрешено создавать новые классы и интерфейсы</li>
- * </ul>
+ * Задача: построить базовую архитектуру бота, который сможет работать в  telegram и ещё как минимум одной чат-бот
+ * платформе (Discord, VK или др.).<br>
+ * В качестве основного функционала бота можно возвращать в ответ текст, который отправил пользователь с пометкой от бота.<br>
+ * Например "Ваше сообщение: <сообщение>".<br>
+ * Нужно акцентировать внимание именно на архитектуре и интерфейсах.<br>
  *
  * @author vpyzhyanov
  * @since 21.10.2020
@@ -18,13 +13,13 @@ package ru.oop;
 public class Main {
 
     /**
-     * Переехать из текущего места в заданную точку
+     * Пример, как можно было бы использовать ботов
      */
-    public static void moveTo(Person person, Position destination) {
-        Car car = new Car(person);
-        car.goWhileHasPath(destination);
-        car.exit(person);
-        person.walk(destination);
-        assert person.getPosition() == destination;
+    public void solveTask() {
+        Bot bot = new TelegramBot("TypicalReplyBot");
+        bot.start();
+        // пользователь взаимодействует с ботом, сообщения обрабатываются через его onUpdate() и т.д.
+        bot.shutdown();
     }
+
 }
