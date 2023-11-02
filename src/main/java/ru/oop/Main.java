@@ -12,14 +12,9 @@ package ru.oop;
  */
 public class Main {
 
-    /**
-     * Пример, как можно было бы использовать ботов
-     */
-    public void solveTask() {
-        Bot bot = new TelegramBot("TypicalReplyBot");
-        bot.start();
-        // пользователь взаимодействует с ботом, сообщения обрабатываются через его onUpdate() и т.д.
-        bot.shutdown();
+    public static void main(String[] args) {
+        Bot myTelegramBot = new MyTelegramBot(System.getProperty("telegramToken"));
+        Bot myDiscordBot = new MyDiscordBot(System.getProperty("discordToken"));
     }
 
 }

@@ -3,31 +3,19 @@ package ru.oop;
 /**
  * Бот
  */
-public interface Bot extends User {
+public interface Bot {
 
     /**
      * Запустить бота
      */
-    void start();
-
-    /**
-     * Выключить бота
-     */
-    void shutdown();
-
-    /**
-     * Обрабатывает поступившее событие в бота (сообщение от пользователя и т.п.)
-     *
-     * @param update событие
-     */
-    void onUpdate(Update update);
-
+    void register(String token);
 
     /**
      * Отправляет сообщение
      *
      * @param message сообщение
+     * @param chatId id чата
      */
-    void sendMessage(Message message);
+    void sendMessage(String message, long chatId);
 
 }
