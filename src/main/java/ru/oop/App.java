@@ -6,15 +6,19 @@ package ru.oop;
  * В качестве основного функционала бота можно возвращать в ответ текст, который отправил пользователь с пометкой от бота.<br>
  * Например "Ваше сообщение: <сообщение>".<br>
  * Нужно акцентировать внимание именно на архитектуре и интерфейсах.<br>
- *
- * @author vpyzhyanov
- * @since 21.10.2020
  */
-public class Main {
+public class App {
 
+    /**
+     * Точка входа для запуска ботов
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
-        Bot myTelegramBot = new MyTelegramBot(System.getProperty("telegramToken"));
-        Bot myDiscordBot = new MyDiscordBot(System.getProperty("discordToken"));
+        MyTelegramBot myTelegramBot = new MyTelegramBot();
+        myTelegramBot.register(System.getProperty("telegramToken"));
+        MyDiscordBot myDiscordBot = new MyDiscordBot();
+        myDiscordBot.register(System.getProperty("discordToken"));
     }
 
 }

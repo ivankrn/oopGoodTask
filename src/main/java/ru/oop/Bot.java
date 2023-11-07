@@ -6,16 +6,10 @@ package ru.oop;
 public interface Bot {
 
     /**
-     * Запустить бота
-     */
-    void register(String token);
-
-    /**
      * Отправляет сообщение
      *
      * @param message сообщение
-     * @param chatId id чата
      */
-    void sendMessage(String message, long chatId);
+    void sendMessage(Message message);
 
 }

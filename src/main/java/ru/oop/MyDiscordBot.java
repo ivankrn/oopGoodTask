@@ -13,27 +13,28 @@ import java.util.Optional;
 public class MyDiscordBot implements Bot {
 
     private DiscordApi discordApi;
+    private final Logic logic = new Logic(this);
 
-    public MyDiscordBot(String token) {
-        register(token);
-    }
-
-    @Override
+    /**
+     * Регистрирует и запускает бота
+     *
+     * @param token токен бота
+     */
     public void register(String token) {
         discordApi = new DiscordApiBuilder().setToken(token).addIntents(Intent.MESSAGE_CONTENT).login().join();
         discordApi.addMessageCreateListener(event -> {
             if (!event.getMessageAuthor().isBotUser()) {
-                String reply = "Привет, я дискорд бот! Твое сообщение: " + event.getMessageContent();
-                sendMessage(reply, event.getChannel().getId());
+                Message message = new Message(event.getMessageContent(), event.getChannel().getId());
+                logic.handleMessage(message);
             }
         });
     }
 
     @Override
-    public void sendMessage(String message, long chatId) {
-        if (discordApi.getChannelById(chatId).isPresent()) {
-            Optional<TextChannel> textChannel = discordApi.getChannelById(chatId).get().asTextChannel();
-            textChannel.ifPresent(channel -> channel.sendMessage(message));
+    public void sendMessage(Message message) {
+        if (discordApi.getChannelById(message.chatId()).isPresent()) {
+            Optional<TextChannel> textChannel = discordApi.getChannelById(message.chatId()).get().asTextChannel();
+            textChannel.ifPresent(channel -> channel.sendMessage(message.text()));
         }
     }
 }

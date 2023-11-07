@@ -10,26 +10,27 @@ import com.pengrad.telegrambot.request.SendMessage;
 public class MyTelegramBot implements Bot {
 
     private TelegramBot botApi;
+    private final Logic logic = new Logic(this);
 
-    public MyTelegramBot(String token) {
-        register(token);
-    }
-
-    @Override
+    /**
+     * Регистрирует и запускает бота
+     *
+     * @param token токен бота
+     */
     public void register(String token) {
         botApi = new TelegramBot(token);
         botApi.setUpdatesListener(updates -> {
             updates.forEach(update -> {
-                String reply = "Привет, я телеграм бот! Твое сообщение: " + update.message().text();
-                sendMessage(reply, update.message().chat().id());
+                Message message = new Message(update.message().text(), update.message().chat().id());
+                logic.handleMessage(message);
             });
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
 
     @Override
-    public void sendMessage(String message, long chatId) {
-        SendMessage sendMessage = new SendMessage(chatId, message);
+    public void sendMessage(Message message) {
+        SendMessage sendMessage = new SendMessage(message.chatId(), message.text());
         botApi.execute(sendMessage);
     }
 }
